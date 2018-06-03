@@ -1,0 +1,58 @@
+body {
+	text-align: center;
+}
+
+section#page-header h1 {
+	font-size: 5rem;
+	line-height: 5.5rem;
+	font-weight: 400;
+	text-transform: uppercase;
+	text-align: center;
+	color: #929494;
+	!important;
+	font-family: Bowlby One SC, serif;
+}
+
+section#page-header h2 {
+	font-family: 'Quicksand', sans-serif;
+	color: white !important;
+}
+
+section#page-header {
+	height: 50vh;
+	width: 100%;
+	background: whitesmoke url(home-bg.jpg)no-repeat center center;
+	background-size: cover;
+	color: #000;
+	display: table;
+}
+
+section#page-header header {
+	width: 100%;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+h2 {
+	text-align: center;
+	font-family: Bowlby One SC, serif;
+	font-size: 4rem;
+	color: #929494;
+}
+
+div {
+	margin-top: 2em;
+}
+
+a {
+	font-family: 'Quicksand', sans-serif;
+}
+
+hr {
+	margin-top: 2em;
+}
+
+b {
+	font-size: 1.50em;
+}
