@@ -19,8 +19,8 @@ CREATE TABLE  COMMENT ( commentID 		VARCHAR(15),
 		    			Content 	    TEXT, 
                 		Date_Time       TIMESTAMP,
 						PRIMARY KEY (commentID),
-                        FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER, 
-                        FOREIGN KEY(PostID) 	REFERENCES POST, 
+                        FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER ON DELETE CASCADE, 
+                        FOREIGN KEY(PostID) 	REFERENCES POST ON DELETE CASCADE, 
 
 	          		);
 
@@ -33,7 +33,7 @@ CREATE TABLE  POST(  	PostID          VARCHAR(15),
                         Location1       LOCATION, 
                         EvenProblem    TYPE, 
 						PRIMARY KEY(PostID),
-                        FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER, 
+                        FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER ON DELETE CASCADE, 
 		     		);
 
 -- Create the MEDIA_UPLOAD table
@@ -43,8 +43,8 @@ CREATE TABLE  MEDIA_UPLOAD(MediaID 	VARCHAR(15),
                           Path1           PATH,
                           Date_Time       TIMESTAMP,
 						  PRIMARY KEY(MediaID),
-                          FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER, 
-                          FOREIGN KEY(PostID) 	REFERENCES POST, 
+                          FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER ON DELETE CASCADE, 
+                          FOREIGN KEY(PostID) 	REFERENCES POST ON DELETE CASCADE, 
 
 		    		);
 
@@ -53,16 +53,15 @@ CREATE TABLE PROBLEM_MANAGER  (	    UserID 	        VARCHAR(15),
                                     PostID          VARCHAR(15),
                                     Status_         STATUS, 
 									PRIMARY KEY(UserID, PostID), 
-				  					FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER, 
-  				  					FOREIGN KEY(PostID) 	REFERENCES POST, 
+				  					FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER ON DELETE CASCADE, 
+  				  					FOREIGN KEY(PostID) 	REFERENCES POST ON DELETE CASCADE, 
                                 );
 
 -- Create the GENERAL_USER   table
 CREATE TABLE GENERAL_USER  (	    UserID 	        VARCHAR(15),
                                     UserName        VARCHAR(30),
                                     Password_       VARCHAR(15),
-                                    Content         TEXT, 
-                                    Email           VARCHAR(30),
+                                    Email           VARCHAR(320),
                                     Phone           NUMBER,
                                     Role_            VARCHAR(15),
 									PRIMARY KEY(UserID), 
@@ -77,8 +76,8 @@ CREATE TABLE NOTIFICATIONS  (	    NotificationID  VARCHAR(15),
                                     Type_           VARCHAR(15),
                                     Date_Time       TIMESTAMP,
 									PRIMARY KEY(NotificationID), 
-				  					FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER, 
-  				  					FOREIGN KEY(PostID) 	REFERENCES POST, 
+				  					FOREIGN KEY(UserID) 	REFERENCES GENERAL_USER ON DELETE CASCADE, 
+  				  					FOREIGN KEY(PostID) 	REFERENCES POST ON DELETE CASCADE, 
                                 );
 
 -- Ensure all data is removed from the tables
@@ -88,5 +87,3 @@ delete from MEDIA_UPLOAD;
 delete from PROBLEM_MANAGER;
 delete from GENERAL_USER;
 delete from NOTIFICATIONS;
-
-
