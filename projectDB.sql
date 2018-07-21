@@ -2,18 +2,18 @@ SET ECHO ON
 
 -- Drop the tables if they are already there. 
 -- OK to get an Oracle error if the table(s) not found (if running script for the first time)
-drop table  COMMENT;
-drop table  POST;
-drop table  MEDIAUPLOAD;
-drop table  PROBLEM_MANAGER;
-drop table  GENERAL_USER;
-drop table  NotificationID;
+-- drop table  COMMENT;
+-- drop table  POST;
+-- drop table  MEDIAUPLOAD;
+-- drop table  PROBLEM_MANAGER;
+-- drop table  GENERAL_USER;
+-- drop table  NotificationID;
 
 
 -- Create the tables, views, constraints, etc..
 
 -- Create the COMMENT table
-CREATE TABLE  COMMENT ( commentID 		VARCHAR(15), 
+CREATE TABLE IF NOT EXISTS  COMMENT ( commentID 		VARCHAR(15), 
 		    			UserID 	        VARCHAR(15), 
 		    			PostID          VARCHAR(15), 
 		    			Content 	    TEXT, 
@@ -25,7 +25,7 @@ CREATE TABLE  COMMENT ( commentID 		VARCHAR(15),
 	          		);
 
 -- Create the POST table
-CREATE TABLE  POST(  	PostID          VARCHAR(15), 
+CREATE TABLE IF NOT EXISTS  POST(  	PostID          VARCHAR(15), 
 						UserID 	        VARCHAR(15),
 						Title 	        VARCHAR(30), 
 						Content 	     TEXT, 
@@ -37,7 +37,7 @@ CREATE TABLE  POST(  	PostID          VARCHAR(15),
 		     		);
 
 -- Create the MEDIA_UPLOAD table
-CREATE TABLE  MEDIA_UPLOAD(MediaID 	VARCHAR(15),
+CREATE TABLE IF NOT EXISTS  MEDIA_UPLOAD(MediaID 	VARCHAR(15),
                           UserID 	        VARCHAR(15),
                           PostID          VARCHAR(15),
                           Path1           PATH,
@@ -49,7 +49,7 @@ CREATE TABLE  MEDIA_UPLOAD(MediaID 	VARCHAR(15),
 		    		);
 
 -- Create the PROBLEM_MANAGER  table
-CREATE TABLE PROBLEM_MANAGER  (	    UserID 	        VARCHAR(15),
+CREATE TABLE IF NOT EXISTS PROBLEM_MANAGER  (	    UserID 	        VARCHAR(15),
                                     PostID          VARCHAR(15),
                                     Status_         STATUS, 
 									PRIMARY KEY(UserID, PostID), 
@@ -58,7 +58,7 @@ CREATE TABLE PROBLEM_MANAGER  (	    UserID 	        VARCHAR(15),
                                 );
 
 -- Create the GENERAL_USER   table
-CREATE TABLE GENERAL_USER  (	    UserID 	        VARCHAR(15),
+CREATE TABLE IF NOT EXISTS GENERAL_USER  (	    UserID 	        VARCHAR(15),
                                     UserName        VARCHAR(30),
                                     Password_       VARCHAR(15),
                                     Email           VARCHAR(320),
@@ -69,7 +69,7 @@ CREATE TABLE GENERAL_USER  (	    UserID 	        VARCHAR(15),
 
 
 -- Create the NOTIFICATIONS  table
-CREATE TABLE NOTIFICATIONS  (	    NotificationID  VARCHAR(15),
+CREATE TABLE IF NOT EXISTS NOTIFICATIONS  (	    NotificationID  VARCHAR(15),
                                     UserID 	        VARCHAR(15),
                                     PostID          VARCHAR(15),
                                     Content         TEXT, 
@@ -81,9 +81,9 @@ CREATE TABLE NOTIFICATIONS  (	    NotificationID  VARCHAR(15),
                                 );
 
 -- Ensure all data is removed from the tables
-truncate table COMMENT;
-delete from POST;
-delete from MEDIA_UPLOAD;
-delete from PROBLEM_MANAGER;
-delete from GENERAL_USER;
-delete from NOTIFICATIONS;
+-- truncate table COMMENT;
+-- delete from POST;
+-- delete from MEDIA_UPLOAD;
+-- delete from PROBLEM_MANAGER;
+-- delete from GENERAL_USER;
+-- delete from NOTIFICATIONS;
