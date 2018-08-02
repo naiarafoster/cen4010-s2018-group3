@@ -7,9 +7,16 @@ $server_root = dirname($_SERVER['PHP_SELF']);
 // Be sure to use $db->close(); at the end of each php file that includes this!
 
 $dbhost = 'localhost';  // Most likely will not need to be changed
-$dbname = '';   // Needs to be changed to your designated table database name
-$dbuser = '';   // Needs to be changed to reflect your LAMP server credentials
-$dbpass = ''; // Needs to be changed to reflect your LAMP server credentials
+
+
+$dbname = 'cen4010sum18_g03';   // Needs to be changed to your designated table database name
+$dbuser = 'cen4010sum18_g03';   // Needs to be changed to reflect your LAMP server credentials
+$dbpass = '2YmdtKtt9a'; // Needs to be changed to reflect your LAMP server credentials
+
+
+// $dbname = 'nfoster2016';   // Needs to be changed to your designated table database name
+// $dbuser = 'nfoster2016';   // Needs to be changed to reflect your LAMP server credentials
+// $dbpass = 'B0am9OOPKB'; // Needs to be changed to reflect your LAMP server credentials
 
 $db = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
 
