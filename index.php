@@ -66,7 +66,7 @@
 		$postID = $_POST['PostID'];
 		$adminID = 3;//$_SESSION['AdminID'];
 		$time = $_SERVER['REQUEST_TIME'];
-		ChangeProblemStatus($db, $postID, $adminID, $time, $problemStatus);
+		ChangeProblemStatus($db, $adminID, $postID, $time, $problemStatus);
 		ob_clean();
 		echo json_encode(true);
 		return;

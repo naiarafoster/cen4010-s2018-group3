@@ -70,17 +70,6 @@ function getUsersByRoles($_db, $_role){
         if($_eventProblem == "Problem"){
             //Create Problem Status
             ChangeProblemStatus($_db, $_user, $stmt->insert_id, $_time, "Waiting");
-            $check = "SELECT * FROM GENERAL_USER WHERE Role = 'Admin'";
-            $admins = $_db->query($check);
-            if($admins->num_rows > 0){
-                print_r($admins);
-                foreach ($admins as $admin) {
-                    print_r($admin);
-                    SendMail($admin['Email']
-                , "New Problem Alert"
-                ,"A new problem has been reported please login to campus screenshot to look at the issue.");
-                }
-            }
         }
     }
 
@@ -175,6 +164,27 @@ function getUsersByRoles($_db, $_role){
                 echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
             }
         }
+            if($_problemStatus == "Waiting"){
+                $check = "SELECT * FROM GENERAL_USER WHERE Role = 'Admin'";
+                $admins = $_db->query($check);
+                if($admins->num_rows > 0){
+                    foreach ($admins as $admin) {
+                        SendMail($admin['Email']
+                    , "New Problem Alerted"
+                    ,"Hi ".$admin['Name'].", \nWe've just received a new problem on Campus Screenshot. Please sign in to take a look at it.");
+                    }
+                }
+            }else{
+                $check = "SELECT * FROM POSTS LEFT JOIN GENERAL_USER ON GENERAL_USER.ID = POSTS.UserID WHERE POSTS.ID = $_postID";
+                $user = $_db->query($check);
+                if($user->num_rows > 0){
+                    while($row = $user->fetch_assoc()){
+                        SendMail($row['Email']
+                        , "Problem Status Updated"
+                        ,"Hi ".$row['Name'].", \nThe Admin has just changed the status of your problem to ".$_problemStatus.". Please log in into campus screenshot.");
+                    }
+                }
+            }
     }
 
     function GetProblems($_db, $_problemType){
