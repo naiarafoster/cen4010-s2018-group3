@@ -40,7 +40,7 @@
 	    }else{
 	    	SavePostToDB($db, $userID, $title, $text, $time, $file_name, $location, $eventProblem);
 	    }
-	    //ob_clean();
+	    ob_clean();
 		echo json_encode(true);
 		return;
 	    //header("Refresh:0; url=wall.php");
@@ -77,6 +77,14 @@
 		$problemType = $_GET["GetProblems"];
 		ob_clean();
 		echo json_encode(GetProblems($db, $problemType));
+		return;
+	}
+
+	//Get Problems
+	if(isset($_GET["GetProblemsByUserID"])){
+		$userID = $_GET["GetProblemsByUserID"];
+		//ob_clean();
+		echo json_encode(GetProblemsByUserID($db, $userID));
 		return;
 	}
 

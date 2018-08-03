@@ -208,6 +208,23 @@ function getUsersByRoles($_db, $_role){
 
     }
 
+        function GetProblemsByUserID($_db, $_userID){
+        
+        $query = "SELECT * FROM `POSTS` WHERE UserID = $_userID AND EventProblem = 'Problem'";
+
+        if(!$result = $_db->query($query)){
+            die("Error in the query.");
+        }
+        $output = [];
+
+        while($row = $result->fetch_assoc()){
+            array_push($output, $row);
+        }
+
+        return $output;
+
+    }
+
     function SendMail($_to, $_subject, $_message){
         $to      = $_to;
         $subject = $_subject;
