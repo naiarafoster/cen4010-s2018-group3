@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>Campus Snapshot</title>
+
+	<!-- Bootstrap -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+
+
+	<!--Css-->
+	<link href="alert.css" rel="stylesheet" type="text/css">
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+
+	<nav class="navbar navbar-default" id="page-header">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+				<a class="navbar-brand" href="#" style="color: white;">UserName1</a>
+
+				<i class="
+glyphicon glyphicon-user" style="color: white;"></i>
+
+			</div>
+
+
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+				<form class="navbar-form navbar-right">
+
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://lamp.cse.fau.edu/~cen4010sum18_g03/M5/home/" style="color: white;"><span class="
+glyphicon glyphicon-home" ></span> Home</a></li>
+						<li><a href="http://lamp.cse.fau.edu/~cen4010sum18_g03/M5/login/" style="color: white;"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+					</ul>
+
+				</form>
+
+			</div>
+
+
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+
+
+
+
+
+	<nav class="navbar navbar-default" id="page-header2">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+				<a class="navbar-brand" href="#" style="color: white;">Create a Alert</a>
+				<i class="
+glyphicon glyphicon-edit" style="color:white;"></i>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+				<form class="navbar-form navbar-right">
+
+					<img src="logo-owl-color%20copy3%20copy.svg" alt="Cinque Terre" width="100" height="50">
+				</form>
+
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+
+
+
+
+
+	<hr>
+
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<!-----Calendar--->
+	<form id="page-header">
+
+
+		<div class="bootstrap-iso" id="page-calendar">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<form method="post">
+							<div class="form-group ">
+								<label class="control-label " for="date">
+       Date:
+      </label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="glyphicon glyphicon-calendar" id="icon">
+        
+        </i>
+									</div>
+									<input class="form-control" id="date" name="date" placeholder="MM/DD/YYYY" type="text" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div>
+
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+
+
+
+
+
+
+	<!--rest--->
+
+	<form id="page-header">
+
+		<div class="form-group">
+			<label for="exampleInputlocation1">Location?</label>
+			<input type="email" class="form-control" id="exampleInputEmail1" placeholder="?..">
+		</div>
+
+
+
+
+
+
+		<div class="form-group">
+			<label for="exampleInputAler1">Type of Alert?</label>
+			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="?..">
+		</div>
+
+
+
+		<label for="examplealer">What is the incident?</label>
+		<textarea class="form-control" rows="3">....</textarea>
+
+		<br>
+
+
+
+
+
+
+
+
+
+
+		<!------->
+
+		<div class="form-group">
+			<label for="exampleInputFile">Upload Image:</label>
+			<input type="file" id="exampleInputFile">
+
+		</div>
+		<div class="checkbox">
+			<label>
+      <input type="checkbox"> Would you like to receive updates about this alert ?
+    </label>
+		</div>
+
+		<div class="checkbox">
+			<label>
+      <input type="checkbox"> Send alert through texts
+ ?
+    </label>
+		</div>
+		<button type="submit" class="btn btn-success">Submit</button>
+	</form>
+
+
+
+
+	<hr>
+
+
+
+
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+	<!---Include Date picker-->
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker3.css" />
+
+	<script>
+		$(document).ready(function() {
+
+			var date_input = $('input[name="date"]');
+			var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+			date_input.datepicker({
+
+				format: 'mm/dd/yyyy',
+				container: container,
+				todayHighlight: true,
+				autoclose: true,
+
+
+			});
+
+
+
+
+		});
+
+	</script>
+
+
+
+</body>
+
+</html>

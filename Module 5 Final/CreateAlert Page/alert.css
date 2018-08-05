@@ -1,0 +1,35 @@
+body {
+	background: #D7D8DB;
+}
+
+nav#page-header {
+	background: #E3001E;
+}
+
+i {
+	font-size: 3em;
+}
+
+nav#page-header2 {
+	background: #125688;
+}
+
+form#page-header {
+	background-color: white;
+	padding: 40px;
+	-webkit-box-shadow: 9px 15px 39px -9px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 9px 15px 39px -9px rgba(0, 0, 0, 0.75);
+	box-shadow: 9px 15px 39px -9px rgba(0, 0, 0, 0.75);
+	margin-right: 4em;
+	margin-left: 4em;
+	margin-top: -5em;
+}
+
+#datepicker>span:hover {
+	cursor: pointer;
+}
+
+i#icon {
+	font-size: 1em;
+	text-align: left;
+}
