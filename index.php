@@ -1,193 +1,140 @@
-<?php
-	require_once 'php/db-connect.php';
-	require_once 'php/functions.php';
+<?php 
+//session_start(); 
+//
+require('server.php');
+$Username = $_SESSION['Username'];
+//
+if (!isset($_SESSION['Username'])) {
+    $_SESSION['msg'] = "You must login first";
+    header('location: login.php');
+}
 
-	if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['role'])){
-		echo "here";
-		$role = $_GET['role'];
-		ob_clean();
-		echo json_encode(getUsersByRoles($db, $role));
-		return;
-	}
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['Username']);
+    header("location: login.php");
+}
 
+//
 
-	//Create or Edit Post
-	if(isset($_POST["Post"]) && isset($_POST['Title']) && isset($_POST['Content']) && isset($_POST['EventProblem']) && isset($_POST['Location'])){
-
-	    $userID = 2; //$_SESSION['UserId'];
-	    $title = $_POST['Title'];
-	    $text = $_POST['Content'];
-	    $problemStatus = "Waiting";
-	    $time = $_SERVER['REQUEST_TIME'];
-	    $location = $_POST['Location'];
-	    $eventProblem = $_POST['EventProblem'];
-	    $file_name = NULL;
-	    if(isset($_POST["PostID"])){
-	    	$postId = $_POST["PostID"];
-	    }
-
-	    if ($_FILES)
-	    {
-	    	//print_r($_FILES);
-	    	$file_name = $time . '.jpg';
-	        $tmp_name = $_FILES['Upload']['name'];
-	        $dstFolder = 'images';
-	        move_uploaded_file($_FILES['Upload']['tmp_name'], $dstFolder . DIRECTORY_SEPARATOR . $file_name);
-	    }
-
-	    if(isset($_POST["PostID"])){
-	    	SaveEditPostToDB($db, $userID, $title, $text, $time, $file_name, $location, $eventProblem, $postId);
-	    }else{
-	    	SavePostToDB($db, $userID, $title, $text, $time, $file_name, $location, $eventProblem);
-	    }
-	    ob_clean();
-		echo json_encode(true);
-		return;
-	    //header("Refresh:0; url=wall.php");
-
-	}
-
-	//Post Comment
-	if(isset($_POST["Comment"]) && isset($_POST["PostID"])){
-		$userID = 2;//$_SESSION['UserID'];
-		$postID = $_POST["PostID"];
-		$time = $_SERVER['REQUEST_TIME'];
-		$comment = $_POST["Comment"];
-	    PostComment($db, $userID, $postID, $time, $comment);
-	    ob_clean();
-		echo json_encode(true);
-		return;
-	}
-
-	//Change Problem Status
-	$_SESSION['IsAdmin'] = true;
-	if(isset($_POST["ChangeProblemStatus"]) && $_SESSION['IsAdmin'] == true){
-		$problemStatus = $_POST['ChangeProblemStatus'];
-		$postID = $_POST['PostID'];
-		$adminID = 3;//$_SESSION['AdminID'];
-		$time = $_SERVER['REQUEST_TIME'];
-		ChangeProblemStatus($db, $adminID, $postID, $time, $problemStatus);
-		ob_clean();
-		echo json_encode(true);
-		return;
-	}
-
-	//Get Problems
-	if(isset($_GET["GetProblems"]) && $_SESSION['IsAdmin'] == true){
-		$problemType = $_GET["GetProblems"];
-		ob_clean();
-		echo json_encode(GetProblems($db, $problemType));
-		return;
-	}
-
-	//Get Problems
-	if(isset($_GET["GetProblemsByUserID"])){
-		$userID = $_GET["GetProblemsByUserID"];
-		//ob_clean();
-		echo json_encode(GetProblemsByUserID($db, $userID));
-		return;
-	}
-
+//
 
 ?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<style type="text/css">
-	#title, #content{
-		width:100%;
-		margin-bottom: 5px;
-	}
-</style>
-<body style="text-align: center;">
-	<h2>Find All Users or Admin on Campus Snapshots</h2>
+        <head>
+            <title>Testing regisstration PHP and MySQL</title>
+            <link rel="stylesheet" type="text/css" href="style.css">
 
-	<div style="text-align: center;">
-		<select id="role-select" style="height: 30px;">
-			<option value="Admin">Admin</option>
-			<option value="User">User</option>
-		</select>
-		<button onclick="send()" style="width:70px; height: 30px; border-radius: 3px; background: blue; border:none; color:white;">Send</button>
-	</div>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+                body {
+                    margin: 0;
+                    font-family: Arial, Helvetica, sans-serif;
+                    background-color: #f2f2f2;
+                }
 
-	<div style="width:500px; margin: auto;">
-		<h4></h4>
-		<div class="output">
-			<div></div>
-		</div>
-	</div>
+                .topnav {
+                    overflow: hidden;
+                    background-color: #b70006;
+                    border: 0.5px solid #7c6f6f;
+                }
 
-	<form action="index.php" method="Post" enctype="multipart/form-data">
-		<div style="width:500px; margin:auto;">
-			<input id="title" name="Title" type="text" placeholder="Title">
-			<textarea id="content" name="Content" placeholder="Content"></textarea>
-			<select name="EventProblem" style="display: block; float: left; width:100%;">
-				<option value="Event">Event</option>
-				<option value="Problem">Problem</option>
-			</select>
-			<input type="file" name="Upload" accept="image/*" style="display: block; float: left; width:100%;">
-			<input type="submit" name="Post" style="display: block; float: right; width:100%;">
-		</div>
-	</form>
+                .topnav a {
+                    float: left;
+                    color: #f2f2f2;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                    font-size: 17px;
 
-	<div style="display:block; width:100%; float:left; margin:20px auto;">
-		<input type="text" id="comment" name="comment" placeholder="Comment">
-		<button id="post-comment" onclick="postComment()">Post</button>
-	</div>
+                }
 
-	<div style="display:block; width:100%; float:left; margin:20px auto;">
-		<select id="problemStatus">
-			<option value="Waiting">Waiting</option>
-			<option value="Under Supervison">Under Supervison</option>
-			<option value="Completed">Completed</option>
-			<option value="Escalated">Escalated</option>
-		</select>
-		<button id="post-comment" onclick="changeProblemStatus()">Post</button>
-	</div>
+                .topnav a:hover {
+                    background-color: #ddd;
+                    color: black;
+                }
 
-	<script>
-		function send(){
-			var output = "";
-			var result = $.ajax({
-	             type: "GET",
-	             url: 'http://lamp.cse.fau.edu/~pabraham2015/cen-4010/index.php',
-	             data:{"role": document.getElementById("role-select").value}
-	           });
-	           result.done(function(done){
-	             done = JSON.parse(done);
-	             $("h4").html("Displaying all "+document.getElementById("role-select").value);
-	             for(var i =0; i < done.length; i++){
-	             	output += "<div style='padding:10px 0px;'>"+done[i].UserName + " - " + done[i].Email + "<br/></div>";
-	             }
-	             $(".output div").html(output);
+                .topnav a.active {
+                    background-color: #b70006;
+                    color: white;
+                }
+                footer {
+                    position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    background-color: #b70006;
+                    color: #b70006;
+                    text-align: center;
+                  border: 0.5px solid #7c6f6f;
 
-	           });
-		}
+                }
+            </style>
+        </head>
+        <body>
+            <div class="topnav">
+                <a class="active" href="#home">Home</a>
+                <a href="php">Login</a>
+                <a href="register.php">Register</a>
+            </div>
 
-		function postComment(){
-			var text = $("#comment").val();
-			var output = "";
-			var result = $.ajax({
-	             type: "POST",
-	             url: 'http://lamp.cse.fau.edu/~pabraham2015/cen-4010/index.php',
-	             data:{"Comment":text, "PostID": 1}
-	           });
-	           result.done(function(done){
-	           	console.log("Commented");
-	           });
 
-		}
+            <div class="header">
+                <h2>Home Page</h2>
+            </div>
+            <div class="content">
 
-		function changeProblemStatus(){
-			var text = $("#problemStatus").val();
-			var output = "";
-			var result = $.ajax({
-	             type: "POST",
-	             url: 'http://lamp.cse.fau.edu/~pabraham2015/cen-4010/index.php',
-	             data:{"ChangeProblemStatus":text, "PostID": 1}
-	           });
-	           result.done(function(done){
-	           	console.log("Commented");
-	           });
-		}
-	</script>
-</body>
+                <!-- notification message -->
+                <?php if (isset($_SESSION['success'])) : ?>
+                <div class="error success" >
+                    <h3>
+                        <?php 
+                        echo $_SESSION['success']; 
+                        unset($_SESSION['success']);
+                        ?>
+                    </h3>
+                </div>
+                <?php endif ?>
+
+                <!-- logged in user information -->
+                <?php  if (isset($_SESSION['Username'])) : ?>
+                <h3>Welcome <br>Username:<strong><?php echo $_SESSION['Username']; ?></strong></h3><br>
+                <!--                -->
+                 <h3>Your Profile</h3><hr>
+                
+                <?php
+               
+                $q = "SELECT Name, Username, Email, Phone, Role FROM GENERAL_USER WHERE Username='".$_SESSION["Username"]."'";
+                $r = mysqli_query($db,$q);
+                $a = mysqli_fetch_assoc($r);
+                echo "<br>"." Name: ".$a["Name"]."<br><br>";
+                echo "Username:".$a["Username"]."<br><br>";
+                echo "Email:".$a["Email"]."<br><br>";
+                echo "Role:".$a["Role"]."<br><br>";
+                ?>
+
+
+                <!--                -->
+
+
+
+
+                <br><br>
+                <p> <a href="index.php?logout='1'" style="color: red;">Logout</a> </p>
+                <?php endif ?>
+
+               
+              
+
+           
+
+            </div>
+
+        </body>
+    <footer>footer</footer>
+</html>
