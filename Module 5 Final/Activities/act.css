@@ -1,0 +1,64 @@
+body {
+	background-color: #D7D8DB;
+}
+
+nav#page-header {
+	background: #E3001E;
+}
+
+div#panel {
+	padding: 15px;
+	height: 80px;
+	width: 200px;
+	margin-left: 1em;
+}
+
+div#page-header {
+	text-align: center;
+	background: white;
+	border-radius: 15px;
+	padding: 15px;
+	height: 200px;
+	width: 500px;
+	margin: auto;
+	margin-top: -5em;
+	text-align: center;
+	border-style: solid;
+	border-width: medium;
+	background-image: url("fau.png");
+	background-repeat: no-repeat;
+	background-position: right top;
+	background-attachment: fixed;
+}
+
+div#page-header2 {
+	text-align: center;
+	background: white;
+	border-radius: 15px;
+	padding: 15px;
+	height: 200px;
+	width: 500px;
+	margin-top: -5em;
+	margin: auto;
+	text-align: center;
+	border-style: solid;
+	border-width: medium;
+	background-image: url("italy.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+h1 {
+	font-family: 'Pacifico', cursive;
+}
+
+h2 {
+	font-family: 'Bungee Inline', cursive;
+}
+
+h4{
+	
+	
+	
+}
