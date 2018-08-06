@@ -23,5 +23,5 @@ $db = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
 if($db->connect_errno > 0) {
     die('Unable to connect to database [' . $db->connect_error . ']');
 }else{
-	//echo "Connected to DB";
+	echo "Connected to DB";
 }

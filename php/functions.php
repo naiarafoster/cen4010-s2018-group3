@@ -49,22 +49,60 @@ function getUsersByRoles($_db, $_role){
 
     function SavePostToDB($_db, $_user, $_title, $_text, $_time, $_file_name, $_location, $_eventProblem)
     {
-        /* Prepared statement, stage 1: prepare query */
-        if (!($stmt = $_db->prepare("INSERT INTO POSTS(UserID, Title, Content, TimeStamp, FileName, Location, EventProblem) VALUES (?, ?, ?, ?, ?, ?,?)")))
-        {
-            echo "Prepare failed: (" . $_db->errno . ") " . $_db->error;
-        }
+        // if($_file_name == NULL){
+        //     /* Prepared statement, stage 1: prepare query */
+        //     if (!($stmt = $_db->prepare("INSERT INTO POSTS(UserID, Title, Content, TimeStamp, Location, EventProblem) VALUES (?, ?, ?, ?, ?,?)")))
+        //     {
+        //         echo "Prepare failed: (" . $_db->errno . ") " . $_db->error;
+        //     }
 
-        /* Prepared statement, stage 2: bind parameters*/
-        if (!$stmt->bind_param('sssssss', $_user, $_title, $_text, $_time, $_file_name, $_location, $_eventProblem))
-        {
-            echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-        }
+        //     /* Prepared statement, stage 2: bind parameters*/
+        //     if (!$stmt->bind_param('ississ', $_user, $_title, $_text, $_time, $_location, $_eventProblem))
+        //     {
+        //         echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+        //     }
 
-        /* Prepared statement, stage 3: execute*/
-        if (!$stmt->execute())
-        {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+        //     /* Prepared statement, stage 3: execute*/
+        //     if (!$stmt->execute())
+        //     {
+        //         echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+        //     }
+        // }else{
+        //     /* Prepared statement, stage 1: prepare query */
+        //     if (!($stmt = $_db->prepare("INSERT INTO POSTS(UserID, Title, Content, TimeStamp, FileName, Location, EventProblem) VALUES (?, ?, ?, ?, ?, ?,?)")))
+        //     {
+        //         echo "Prepare failed: (" . $_db->errno . ") " . $_db->error;
+        //     }
+
+        //     /* Prepared statement, stage 2: bind parameters*/
+        //     if (!$stmt->bind_param('ississs', $_user, $_title, $_text, $_time, $_file_name, $_location, $_eventProblem))
+        //     {
+        //         echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+        //     }
+
+        //     /* Prepared statement, stage 3: execute*/
+        //     if (!$stmt->execute())
+        //     {
+        //         echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+        //     }
+        // }
+
+        if($_file_name != NULL){
+            $sql = "INSERT INTO POSTS(UserID, Title, Content, TimeStamp, FileName, Location, EventProblem) VALUES ('$_user', '$_title', '$_text', '$_time', '$_file_name', '$_location','$_eventProblem')";
+
+            if ($_db->query($sql) === TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>";
+            }
+        }else{
+            $sql = "INSERT INTO POSTS(UserID, Title, Content, TimeStamp, Location, EventProblem) VALUES ('$_user', '$_title', '$_text', '$_time', '$_location','$_eventProblem')";
+
+            if ($_db->query($sql) === TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>";
+            }
         }
 
         if($_eventProblem == "Problem"){
@@ -86,7 +124,7 @@ function getUsersByRoles($_db, $_role){
             }
 
             /* Prepared statement, stage 2: bind parameters*/
-            if (!$stmt->bind_param('sssssss', $_title, $_text, $_time, $_file_name, $_location, $_eventProblem, $_postID))
+            if (!$stmt->bind_param('ssisssi', $_title, $_text, $_time, $_file_name, $_location, $_eventProblem, $_postID))
             {
                 echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
             }
@@ -228,6 +266,41 @@ function getUsersByRoles($_db, $_role){
     function GetPostsByUserID($_db, $_userID){
         
         $query = "SELECT P.*, C.CommentID, C.Text FROM POSTS AS P LEFT JOIN COMMENTS AS C ON P.ID = C.PostID WHERE P.UserID = $_userID";
+
+        if(!$result = $_db->query($query)){
+            die("Error in the query.");
+        }
+        $output = array();
+        $comment = array();
+
+        while($row = $result->fetch_assoc()){
+            //array_push($output, $row);
+            if($row['CommentID'] == NULL){
+                if($comment != NULL){
+                    $output[count($output) - 1]["Comments"] = $comment;
+                    $comment = array();
+                }
+                array_push($output, array("PostID" => $row["ID"], "Title"=>$row["Title"], "Content"=>$row["Content"], "FileName"=> $row["FileName"], "TimeStamp"=>$row["TimeStamp"],"Location"=>$row["Location"],"EventProblem"=>$row["EventProblem"]));
+            }else{
+                if($output[count($output) - 1]["PostID"] != $row["ID"]){
+                    array_push($output, array("PostID" => $row["ID"], "Title"=>$row["Title"], "Content"=>$row["Content"], "FileName"=> $row["FileName"], "TimeStamp"=>$row["TimeStamp"],"Location"=>$row["Location"],"EventProblem"=>$row["EventProblem"]));
+                }
+                array_push($comment, array("CommentID" => $row["CommentID"], "Text" =>$row["Text"], "TimeStamp" => $row["TimeStamp"], "UserID" => $row["UserID"]));
+            }
+        }
+
+        if($comment != NULL){
+            array_push($output[count($output) - 1]["Comments"], $comment);
+            $comment = array();
+        }
+
+        return $output;
+
+    }
+
+    function GetAllPosts($_db){
+        
+        $query = "SELECT P.*, C.CommentID, C.Text FROM POSTS AS P LEFT JOIN COMMENTS AS C ON P.ID = C.PostID";
 
         if(!$result = $_db->query($query)){
             die("Error in the query.");

@@ -25,10 +25,10 @@
 	    if(isset($_POST["PostID"])){
 	    	$postId = $_POST["PostID"];
 	    }
-
-	    if ($_FILES)
+			// print_r($_POST);
+	  //   	print_r($_FILES);
+	    if ($_FILES['Upload']['name'])
 	    {
-	    	//print_r($_FILES);
 	    	$file_name = $time . '.jpg';
 	        $tmp_name = $_FILES['Upload']['name'];
 	        $dstFolder = 'images';
@@ -36,14 +36,16 @@
 	    }
 
 	    if(isset($_POST["PostID"])){
+	    	echo "postid";
 	    	SaveEditPostToDB($db, $userID, $title, $text, $time, $file_name, $location, $eventProblem, $postId);
 	    }else{
 	    	SavePostToDB($db, $userID, $title, $text, $time, $file_name, $location, $eventProblem);
+	    	//echo $userID, $title, $text, $time, $file_name, $location, $eventProblem;
 	    }
-	    //ob_clean();
+	    ob_clean();
 		echo json_encode(true);
-		return;
-	    //header("Refresh:0; url=wall.php");
+		//return;
+	    header("Refresh:0; url=M5/NewAlert/");
 
 	}
 
@@ -88,11 +90,17 @@
 	}
 
 	//Get Posts by userid
-	//Get Problems
 	if(isset($_GET["GetPostsByUserID"])){
 		$userID = $_GET["GetPostsByUserID"];
 		ob_clean();
 		echo json_encode(GetPostsByUserID($db, $userID));
+		return;
+	}
+
+	//Get All Posts
+	if(isset($_GET["GetAllPosts"])){
+		ob_clean();
+		echo json_encode(GetAllPosts($db));
 		return;
 	}
 
