@@ -208,7 +208,7 @@ function getUsersByRoles($_db, $_role){
 
     }
 
-        function GetProblemsByUserID($_db, $_userID){
+    function GetProblemsByUserID($_db, $_userID){
         
         $query = "SELECT * FROM `POSTS` WHERE UserID = $_userID AND EventProblem = 'Problem'";
 
@@ -219,6 +219,41 @@ function getUsersByRoles($_db, $_role){
 
         while($row = $result->fetch_assoc()){
             array_push($output, $row);
+        }
+
+        return $output;
+
+    }
+
+    function GetPostsByUserID($_db, $_userID){
+        
+        $query = "SELECT P.*, C.CommentID, C.Text FROM POSTS AS P LEFT JOIN COMMENTS AS C ON P.ID = C.PostID WHERE P.UserID = $_userID";
+
+        if(!$result = $_db->query($query)){
+            die("Error in the query.");
+        }
+        $output = array();
+        $comment = array();
+
+        while($row = $result->fetch_assoc()){
+            //array_push($output, $row);
+            if($row['CommentID'] == NULL){
+                if($comment != NULL){
+                    $output[count($output) - 1]["Comments"] = $comment;
+                    $comment = array();
+                }
+                array_push($output, array("PostID" => $row["ID"], "Title"=>$row["Title"], "Content"=>$row["Content"], "FileName"=> $row["FileName"], "TimeStamp"=>$row["TimeStamp"],"Location"=>$row["Location"],"EventProblem"=>$row["EventProblem"]));
+            }else{
+                if($output[count($output) - 1]["PostID"] != $row["ID"]){
+                    array_push($output, array("PostID" => $row["ID"], "Title"=>$row["Title"], "Content"=>$row["Content"], "FileName"=> $row["FileName"], "TimeStamp"=>$row["TimeStamp"],"Location"=>$row["Location"],"EventProblem"=>$row["EventProblem"]));
+                }
+                array_push($comment, array("CommentID" => $row["CommentID"], "Text" =>$row["Text"], "TimeStamp" => $row["TimeStamp"], "UserID" => $row["UserID"]));
+            }
+        }
+
+        if($comment != NULL){
+            array_push($output[count($output) - 1]["Comments"], $comment);
+            $comment = array();
         }
 
         return $output;

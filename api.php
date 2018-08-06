@@ -14,7 +14,7 @@
 	//Create or Edit Post
 	if(isset($_POST["Post"]) && isset($_POST['Title']) && isset($_POST['Content']) && isset($_POST['EventProblem']) && isset($_POST['Location'])){
 
-	    $userID = 2; //$_SESSION['UserId'];
+	    $userID = 13;//$_SESSION['UserId'];
 	    $title = $_POST['Title'];
 	    $text = $_POST['Content'];
 	    $problemStatus = "Waiting";
@@ -40,7 +40,7 @@
 	    }else{
 	    	SavePostToDB($db, $userID, $title, $text, $time, $file_name, $location, $eventProblem);
 	    }
-	    ob_clean();
+	    //ob_clean();
 		echo json_encode(true);
 		return;
 	    //header("Refresh:0; url=wall.php");
@@ -49,7 +49,7 @@
 
 	//Post Comment
 	if(isset($_POST["Comment"]) && isset($_POST["PostID"])){
-		$userID = 2;//$_SESSION['UserID'];
+		$userID = 13;//$_SESSION['UserID'];
 		$postID = $_POST["PostID"];
 		$time = $_SERVER['REQUEST_TIME'];
 		$comment = $_POST["Comment"];
@@ -58,13 +58,12 @@
 		echo json_encode(true);
 		return;
 	}
-
 	//Change Problem Status
 	$_SESSION['IsAdmin'] = true;
 	if(isset($_POST["ChangeProblemStatus"]) && $_SESSION['IsAdmin'] == true){
 		$problemStatus = $_POST['ChangeProblemStatus'];
 		$postID = $_POST['PostID'];
-		$adminID = 3;//$_SESSION['AdminID'];
+		$adminID = $_SESSION['AdminID'];
 		$time = $_SERVER['REQUEST_TIME'];
 		ChangeProblemStatus($db, $adminID, $postID, $time, $problemStatus);
 		ob_clean();
@@ -83,8 +82,17 @@
 	//Get Problems
 	if(isset($_GET["GetProblemsByUserID"])){
 		$userID = $_GET["GetProblemsByUserID"];
-		//ob_clean();
+		ob_clean();
 		echo json_encode(GetProblemsByUserID($db, $userID));
+		return;
+	}
+
+	//Get Posts by userid
+	//Get Problems
+	if(isset($_GET["GetPostsByUserID"])){
+		$userID = $_GET["GetPostsByUserID"];
+		ob_clean();
+		echo json_encode(GetPostsByUserID($db, $userID));
 		return;
 	}
 
@@ -116,7 +124,7 @@
 		</div>
 	</div>
 
-	<form action="index.php" method="Post" enctype="multipart/form-data">
+	<form action="api.php" method="Post" enctype="multipart/form-data">
 		<div style="width:500px; margin:auto;">
 			<input id="title" name="Title" type="text" placeholder="Title">
 			<textarea id="content" name="Content" placeholder="Content"></textarea>
